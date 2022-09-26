@@ -1,0 +1,48 @@
+{
+
+  "manifest_version": 2,
+  "name": "Zoom single item",
+  "description": "Allows increasing/decreasing size of individual elements in a webpage. The same zoom level is then applied to the same item on all pages of the same domain. Useful if there's an item that you are constantly clicking but is too small to click easily.",
+  "version": "1.0",
+
+
+  "background": {
+    "scripts": ["./aux_scripts/aux_functions.js"]
+  },
+
+
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "contextMenus",
+    "<all_urls>"
+  ],
+
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./aux_scripts/aux_functions.js", "./content_scripts/resizeElements.js"],
+      "run_at":"document_end",
+      "css": ["./css/icon_style.css"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    "/icons/*.png",
+    "./css/icon_style.css"
+  ],
+
+
+  "options_ui": {
+    "page": "./options_page/options.html",
+    "browser_style": true
+  },
+
+
+  "browser_action": {
+    "default_title": "Zoom single item: open options page"
+  }
+
+}
