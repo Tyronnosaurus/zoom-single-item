@@ -23,7 +23,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["./aux_scripts/aux_functions.js", "./content_scripts/resizeElements.js"],
+      "js": ["./aux_scripts/aux_functions.js", "./content_scripts/user_interaction.js", "./content_scripts/resizeElements.js"],
       "run_at":"document_end",
       "css": ["./css/icon_style.css"]
     }
