@@ -133,7 +133,7 @@ function SaveMapInLocalStorage(domain, map){
 
     browser.storage.local.set(objToSave)
     .then(
-        Null, //()      => { console.log("Saving successful");              },
+        ()      => {},   // On success, do nothing
         (error) => { console.log(`Saving failed. Error: ${error}`); }   // Failure to retrieve data from storage
     );
 }
