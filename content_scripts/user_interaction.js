@@ -68,13 +68,34 @@ document.onwheel = function (e){
 
     var deepestNode = GetDeepestNodeUnderCursor();
 
-    // Get element's current scale (it works because offsetWidth returns the original width no matter how much the element is scaled)
-    var currScale = deepestNode.getBoundingClientRect().width / deepestNode.offsetWidth;
+    // Get element's current scale 
+    var currScale = getCurrentScaleOfElement1(deepestNode);
+    var newScale;
 
-    if(e.deltaY > 0) deepestNode.style.transform = 'scale(' + (currScale-0.1) + ')';   // Scroll down
-    else             deepestNode.style.transform = 'scale(' + (currScale+0.1) + ')';   // Scroll up
-        
+    if(e.deltaY > 0) newScale = currScale-0.1;   // Scroll down
+    else             newScale = currScale+0.1;   // Scroll up
+    
+    deepestNode.style.transform = 'scale(' + newScale + ')';
+
+
     e.preventDefault(); // Prevent page from scrolling
+
+
+    // Save it in local storage so that it can be recovered when visiting the page again
+    var domain = GetDomainOfCurrentPage();
+    var selector = generateQuerySelector(deepestNode);
+    SaveSelectorAndScalePair(domain, selector, newScale);
+}
+
+
+
+
+function getCurrentScaleOfElement1(el){
+    var scaleX = el.getBoundingClientRect().width / el.offsetWidth;    // It works because offsetWidth returns the original width no matter how much the element is scaled
+    
+    // scaleX will have a value such as 1.499432 or 1.50035. We'll round it to 2 decimals but there'll still be cases such as 1.500000000001 due to float imprecision    
+    scaleX = Math.round(scaleX * 100) / 100   // Round to 2 decimals
+    return(scaleX);
 }
 
 
@@ -103,4 +124,31 @@ function GetDeepestNodeWithClass(nodeList){
         }
     }
     return("");
+}
+
+
+
+
+
+
+
+
+// https://stackoverflow.com/questions/42184322/javascript-get-element-unique-selector
+function generateQuerySelector(el) {
+
+    if (el.tagName.toLowerCase() == "html")
+        return "HTML";
+
+    var str = el.tagName;
+    
+    str += (el.id != "") ? "#" + el.id : "";    // Add #id if there is one
+    
+    if (el.className) {                         // Add class or classes if there's any
+        var classes = el.className.split(/\s/);
+        for (var i=0; i<classes.length; i++) {
+            str += "." + classes[i];
+        }
+    }
+
+    return(generateQuerySelector(el.parentNode) + " > " + str);
 }
