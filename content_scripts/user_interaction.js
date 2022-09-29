@@ -69,7 +69,7 @@ document.onwheel = function (e){
     var deepestNode = GetDeepestNodeUnderCursor();
 
     // Get element's current scale 
-    var currScale = getCurrentScaleOfElement1(deepestNode);
+    var currScale = getCurrentScaleOfElement(deepestNode);
     var newScale;
 
     if(e.deltaY > 0) newScale = currScale-0.1;   // Scroll down
@@ -90,11 +90,12 @@ document.onwheel = function (e){
 
 
 
-function getCurrentScaleOfElement1(el){
+function getCurrentScaleOfElement(el){
     var scaleX = el.getBoundingClientRect().width / el.offsetWidth;    // It works because offsetWidth returns the original width no matter how much the element is scaled
     
-    // scaleX will have a value such as 1.499432 or 1.50035. We'll round it to 2 decimals but there'll still be cases such as 1.500000000001 due to float imprecision    
-    scaleX = Math.round(scaleX * 100) / 100   // Round to 2 decimals
+    // scaleX will have a value such as 1.499432 or 1.50035 because the previous division didn't have infinite precision.
+    // We'll round it to 2 decimals but there'll still be cases such as 1.500000000001 due to float imprecision.
+    scaleX = Math.round(scaleX * 100) / 100;   // Round to 2 decimals
     return(scaleX);
 }
 
@@ -110,25 +111,8 @@ function GetDeepestNodeUnderCursor(){
 
 // Given a list of nested nodes (e.g. [body, div, div, a, img]) returns the deepest one (img)
 function GetDeepestNode(nodeList){
-    return( nodeList[nodeList.length-1] )   // Return last element in the array
+    return( nodeList[nodeList.length-1] );   // Return last element in the array
 }
-
-
-// Given a list nested nodes (e.g. [body, div, h3.title, a]) returns the deepest one that has a class (h3.title)
-function GetDeepestNodeWithClass(nodeList){
-    for (var i=nodeList.length-1; i>=0; i--) {    // Loop from the end
-        var node = nodeList[i];
-
-        if (node.className){    // If it has a class (or more than one)
-            return(node);
-        }
-    }
-    return("");
-}
-
-
-
-
 
 
 

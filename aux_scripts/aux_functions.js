@@ -1,8 +1,6 @@
 
-//This file contains a function used by other parts of the program.
-//It must be loaded before any file that uses it:
-//  It is used in panel.js, which is part of the sidepanel which loads once on startup. We insert it as a script directly in the panel.html
-//  It is used in decorateLinks.js, which is in content_scripts and loads every time we load a website. We add it with manifest.js, before decorateLinks.js.
+//This file contains functions used by other parts of the program.
+//In the manifest, it must be loaded before any file that uses it.
 
 
 function floatsAreEqual(f1, f2){
@@ -41,11 +39,3 @@ function deleteSubstringAtStart(mainstring, substring){
         return(mainstring);
     }
 }
-
-
-
-///////////////////
-// LOCAL STORAGE //
-///////////////////
-
-

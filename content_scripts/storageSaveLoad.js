@@ -129,11 +129,11 @@ function SaveMapInLocalStorage(domain, map){
         
     let serializedMap = SerializeMap(map);
 
-    let objToSave = { [domain]:serializedMap }
+    let objToSave = { [domain]:serializedMap };  //ECMAScript 2015 (ES6) allows dynamic computing of object properties with []
 
     browser.storage.local.set(objToSave)
     .then(
-        () => {console.log("Saving successful");},
+        Null, //()      => { console.log("Saving successful");              },
         (error) => { console.log(`Saving failed. Error: ${error}`); }   // Failure to retrieve data from storage
     );
 }
@@ -143,12 +143,8 @@ function SaveMapInLocalStorage(domain, map){
 
 // String -> map
 function DeserializeMap(serializedMap){
-    try{
-        return( new Map(JSON.parse(serializedMap)) );
-    }
-    catch{
-        return( new Map() );  // If for some reason the saved data was invalid, discard it and start with a fresh map 
-    }
+    try  { return( new Map(JSON.parse(serializedMap)) ); }
+    catch{ return( new Map() ); }  // If for some reason the saved data was invalid, discard it and start with a fresh map 
 }
 
 
