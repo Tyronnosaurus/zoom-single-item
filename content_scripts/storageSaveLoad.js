@@ -12,28 +12,21 @@ iloveyoumom.com     |
 */
 
 
-
-
-
-try{
-    console.log("Start loading")
-//    fetchDictOfResizeValues();   // Since this script gets loaded as a content script, this function gets executed whenever a website is loaded
-}
-catch(e){
-    console.log(e);
-}
-
-
-
-
 ///////////////
 //  LOADING  //
 ///////////////
+// When the page loads, immediately fetch data from local storage for the current website's domain.
+// For each CSS selector we have, find instances in the page and scale them accordingly.
+
+try     { fetchDictOfResizeValues(); }   // Since this script gets loaded as a content script, this function gets executed whenever a website is loaded
+catch(e){ console.log(e); }
+
+
+
 
 // Given the current page, get its domain, and fetch from storage the dict with CssSelector-ResizeValue pairs
 function fetchDictOfResizeValues(){
     domain = GetDomainOfCurrentPage()
-    console.log("Domain is: " + domain);
 
     browser.storage.local.get(domain)
     .then(
@@ -45,20 +38,16 @@ function fetchDictOfResizeValues(){
 
 
 // Given a map of (CSS selector & scale) pairs, resize any element in the current website that matches any of the selectors
-function resizeItemsInPage(mapDomainData){
+function resizeItemsInPage(fetchedObj){
 
-    // Fetching from storage yields a map with a single pair: the key is the domain and the value is another map with the actual data we want (Css selectors and scale values)
-    mapSelectorScale = GetValueFromFetchedMapWithOnePair(mapDomainData) // Extract the nested map
+    // Fetching 1 key from storage yields an object with a single pair: {key:value}. The value is another map with the actual data we want (Css selectors and scale values)
+    let serializedMap = GetFirstValueFromObj(fetchedObj);   // Extract just the data (value of the first key in the object)
+    let mapSelSca = DeserializeMap(serializedMap);                // The fetched data is a string, which we deserialize to map (easier to work with)
 
-    selectorsToResize = mapSelectorScale.keys() // Keys of the map object are CSS selectors (e.g. 'h2.title')
-
-    for (selector in selectorsToResize){  
-        scale = mapSelectorScale[selector];                       // The size multiplier (1 = original size)
-        instancesToResize = document.querySelectorAll(selector);  // For each selector, find instances of it on the webpage
-
-        for (e in instancesToResize) ResizeElement(e, scale);     // Resize each instance
+    for (const [selector, scale] of mapSelSca) {
+        instancesToResize = document.querySelectorAll(selector);       // For each selector, find all elements that match it in the page
+        instancesToResize.forEach( e => {ResizeElement(e, scale);} );  // Resize each instance        
     }
-
 }
 
 
