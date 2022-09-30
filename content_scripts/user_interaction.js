@@ -83,8 +83,8 @@ document.onwheel = function (e){
 
     // Save it in local storage so that it can be recovered when visiting the page again
     var domain = GetDomainOfCurrentPage();
-    var selector = generateQuerySelector(deepestNode);
-    SaveSelectorAndScalePair(domain, selector, newScale);
+    var selector = generateQuerySelector(deepestNode);  // Create a unique CSS selector to identify this element in the future
+    SaveSelectorAndScalePair(domain, selector, newScale);   // Save it in permanent storage
 }
 
 
@@ -112,27 +112,4 @@ function GetDeepestNodeUnderCursor(){
 // Given a list of nested nodes (e.g. [body, div, div, a, img]) returns the deepest one (img)
 function GetDeepestNode(nodeList){
     return( nodeList[nodeList.length-1] );   // Return last element in the array
-}
-
-
-
-
-// https://stackoverflow.com/questions/42184322/javascript-get-element-unique-selector
-function generateQuerySelector(el) {
-
-    if (el.tagName.toLowerCase() == "html")
-        return "HTML";
-
-    var str = el.tagName;
-    
-    str += (el.id != "") ? "#" + el.id : "";    // Add #id if there is one
-    
-    if (el.className) {                         // Add class or classes if there's any
-        var classes = el.className.split(/\s/);
-        for (var i=0; i<classes.length; i++) {
-            str += "." + classes[i];
-        }
-    }
-
-    return(generateQuerySelector(el.parentNode) + " > " + str);
 }

@@ -39,3 +39,42 @@ function deleteSubstringAtStart(mainstring, substring){
         return(mainstring);
     }
 }
+
+
+
+
+// Given an element from a document, generates a CSS selector
+// https://stackoverflow.com/questions/42184322/javascript-get-element-unique-selector
+function generateQuerySelector(el){
+
+    if (el.tagName.toLowerCase() == "html") return "HTML";
+
+    let str = el.tagName;   // i.e.: DIV, H2, A, P, IMG...
+
+    if (el.id != "")   str += ("#" + el.id);    // Add #id if there is one
+
+    if (el.className) {                         // Add class or classes if there's any
+        let classes = el.className.split(/\s/); // Split into a list using space as delimiters
+        removeItemFromArray(classes, "");       // Remove empty strings caused by extra spaces (i.e. "htitle  redtext module3 " -> ["htitle", "", "redtext", "module3", ""])
+        
+        for (let i=0; i<classes.length; i++) {
+            str += "." + classes[i];
+        }
+    }
+
+    // Recursively do the same with the parent and concatenate selectors with > (child combinator)
+    return(generateQuerySelector(el.parentNode) + " > " + str);
+}
+
+
+
+// Removes all instances of an item in an array. 
+function removeItemFromArray(array, item) {
+    let i = array.length;
+
+    while (i--) {   // Loop backwards to prevent the problems of modifying an array while looping on it
+        if (array[i] === item) {
+            array.splice(i, 1);
+        }
+    }
+}
