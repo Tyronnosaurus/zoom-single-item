@@ -27,17 +27,15 @@ function normalizeUrl(url){
     
     return(result);
 }
-  
+
 
 function deleteSubstringAtStart(mainstring, substring){
     //Remove a substring from a bigger string, but only if it's at the beginning
-    //(since that's all we need, and searching the whole string would be unnecesarily inneficient)
+    //(since that's all we need, and searching the whole string would be unnecessarily inefficient)
   
-    if( mainstring.startsWith(substring) ){
-        return(mainstring.slice(substring.length))    //Remove the substring from the beginning of mainstring, and return the remaining part
-    }else{
-        return(mainstring);
-    }
+    if(mainstring.startsWith(substring))
+        return( mainstring.slice(substring.length) )    //Remove the substring from the beginning of mainstring, and return the remaining part
+    return(mainstring)
 }
 
 
@@ -70,9 +68,7 @@ function generateQuerySelector(el){
 
 // Removes all instances of an item in an array. 
 function removeItemFromArray(array, item) {
-    let i = array.length;
-
-    while (i--) {   // Loop backwards to prevent the problems of modifying an array while looping on it
+    for (let i=array.length; i>=0; i--) {   // Loop backwards to prevent the problems of modifying an array while looping on it
         if (array[i] === item) {
             array.splice(i, 1);
         }
