@@ -3,11 +3,11 @@ This is how we store data:
 
 Domain (Object key) | Map* of CssSelector:ScaleFactor pairs (Object value)
 -----------------------------------------
-learnjavascript.com | 
-iliketurtles.org    |
-iloveyoumom.com     |
+learnjavascript.com | [["HTML > BODY > DIV.mainBody > ARTICLE.articleItem > IMG",1.5],["HTML > BODY > HEADER > 2]]
+iliketurtles.org    | [["HTML > BODY > DIV.mainBody > DIV.post > IMG",0.4]]
+iloveyoumom.com     | [["HTML > BODY > HEADER > 3.5]]
 
-(*) Actually a string. A javascript map can't be stored, so we serialize it when saving and deserialize it when fetching.
+    (*) Actually a string. A javascript map can't be stored, so we serialize it when saving and deserialize it when fetching.
 
 */
 
@@ -72,7 +72,7 @@ function ResizeElement(element, scale){
 // In order to edit the map, we need to fetch it, edit it, and save it again.
 
 
-//Accessing local storage is an asynchronous operation, so we need to do a sequence of .then()
+// Accessing local storage is an asynchronous operation, so we need to do a sequence of .then()
 function SaveSelectorAndScalePair(domain, selector, scale){
 
     // Fetch data (CssSelectors-ScaleValues map) for this domain from local storage
@@ -106,7 +106,7 @@ function GetFirstValueFromObj(obj){
 
 
 
-//Given a map and a pair, adds it, edits it, or removes it (if it is 1 since that means no resizing)
+// Given a map and a pair, adds it, edits it, or removes it (if it is 1 since that means no resizing)
 function UpdatePairInMap(map, selector, scale){
 
     // Case 1: Already exists, equal to 1       -> Remove it
@@ -122,7 +122,7 @@ function UpdatePairInMap(map, selector, scale){
 
 
 
-//Save a map in local storage
+// Save a map in local storage
 function SaveMapInLocalStorage(domain, map){
         
     let serializedMap = SerializeMap(map);
@@ -138,13 +138,13 @@ function SaveMapInLocalStorage(domain, map){
 
 
 
+// Serialization & Deserialization - In order to save the data in storage, it needs to be in a serializable format, such as string
 
 // String -> map
 function DeserializeMap(serializedMap){
     try  { return( new Map(JSON.parse(serializedMap)) ); }
     catch{ return( new Map() ); }  // If for some reason the saved data was invalid, discard it and start with a fresh map 
 }
-
 
 // map -> string
 function SerializeMap(map){
