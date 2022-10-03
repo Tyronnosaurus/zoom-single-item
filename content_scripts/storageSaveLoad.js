@@ -82,10 +82,10 @@ function SaveSelectorAndScalePair(domain, selector, scale){
         (fetchedObj) => {
             let serializedMap = GetFirstValueFromObj(fetchedObj);   // Extract just the data (value of the first key in the object)
             let map = DeserializeMap(serializedMap);                // The fetched data is a string, which we deserialize to map (easier to work with)
-            let updatedMap = UpdatePairInMap(map, selector, scale); // Add/overwrite/remove the new CssSelector-Scaling pair on the map
-            SaveMapInLocalStorage(domain, updatedMap);              // Save the updated map back to local storage
+            UpdatePairInMap(map, selector, scale);                  // Add/overwrite/remove the new CssSelector-Scaling pair on the map
+            SaveMapInLocalStorage(domain, map);                     // Save the updated map back to local storage
         
-        } ,
+        },
         (error) => { console.log(`Saving failed. Error: ${error}`); }   // Failure to retrieve data from storage
     );
  
@@ -118,8 +118,6 @@ function UpdatePairInMap(map, selector, scale){
         if (map.has(selector))   map.delete(selector);    // Case 1
     }
     else                         map.set(selector,scale); // Cases 3, 4
-
-    return(map);
 }
 
 
