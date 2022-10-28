@@ -62,6 +62,7 @@ function unhighlightElements(){
 
 
 
+
 // Called when scroll wheel is scrolled
 document.addEventListener(
     'wheel',
@@ -90,7 +91,6 @@ function onWheel(e){
 
 
 
-
 function getCurrentScaleOfElement(el){
     let scaleX = el.getBoundingClientRect().width / el.offsetWidth;    // It works because offsetWidth returns the original width no matter how much the element is scaled
     
@@ -113,4 +113,26 @@ function GetDeepestNodeUnderCursor(){
 // Given a list of nested nodes (e.g. [body, div, div, a, img]) returns the deepest one (img)
 function GetDeepestNode(nodeList){
     return( nodeList[nodeList.length-1] );   // Return last element in the array
+}
+
+
+
+
+
+
+// Code related to context menu -> Reset size
+// https://stackoverflow.com/a/7704392
+let clickedElement = null;
+
+document.addEventListener("contextmenu",
+                          function(event){clickedElement = event.target;},
+                          true);
+
+// When context menu sends message...
+browser.runtime.onMessage.addListener(doTheThing);
+
+function doTheThing(request, sender, sendResponse) {
+    if(request == "getClickedEl") {
+        ResizeElementAndSave(clickedElement, 1);    // Restore to size 1
+    }
 }
