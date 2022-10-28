@@ -74,3 +74,16 @@ function removeItemFromArray(array, item) {
         }
     }
 }
+
+
+
+
+function ResizeElementAndSave(element, newScale){
+    element.style.transform = 'scale(' + newScale + ')';
+
+    // Save it in local storage so that it can be recovered when visiting the page again
+    let domain = GetDomainOfCurrentPage();
+
+    let selector = generateQuerySelector(element);         // Create a unique CSS selector to identify this element in the future
+    SaveSelectorAndScalePair(domain, selector, newScale);  // Save it in permanent storage
+}
