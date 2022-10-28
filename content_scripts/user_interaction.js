@@ -25,7 +25,7 @@ var highlightedElements = []
 // When pressing the key combination, highlight the element under the cursor which will be resized if we scroll
 document.onkeydown = function(e){
     if (!(e.ctrlKey && e.altKey)) return;   // Do nothing if Ctrl & Alt aren't pressed
-    var deepestNode = GetDeepestNodeUnderCursor();
+    let deepestNode = GetDeepestNodeUnderCursor();
     highlightElement(deepestNode);
 }
 
@@ -66,11 +66,11 @@ document.onwheel = function (e){
 
     if (!(e.ctrlKey && e.altKey)) return;   // Only scale when Ctrl & Alt are pressed
 
-    var deepestNode = GetDeepestNodeUnderCursor();
+    let deepestNode = GetDeepestNodeUnderCursor();
 
     // Get element's current scale 
-    var currScale = getCurrentScaleOfElement(deepestNode);
-    var newScale;
+    let currScale = getCurrentScaleOfElement(deepestNode);
+    let newScale;
 
     if(e.deltaY > 0) newScale = currScale-0.1;   // Scroll down
     else             newScale = currScale+0.1;   // Scroll up
@@ -91,7 +91,7 @@ document.onwheel = function (e){
 
 
 function getCurrentScaleOfElement(el){
-    var scaleX = el.getBoundingClientRect().width / el.offsetWidth;    // It works because offsetWidth returns the original width no matter how much the element is scaled
+    let scaleX = el.getBoundingClientRect().width / el.offsetWidth;    // It works because offsetWidth returns the original width no matter how much the element is scaled
     
     // scaleX will have a value such as 1.499432 or 1.50035 because the previous division didn't have infinite precision.
     // We'll round it to 2 decimals but there'll still be cases such as 1.500000000001 due to float imprecision.
@@ -103,8 +103,8 @@ function getCurrentScaleOfElement(el){
 
 // Return the deepest node under the mouse cursor
 function GetDeepestNodeUnderCursor(){
-    var nodesUnderCursor = document.querySelectorAll(":hover");   // Returns list of all nodes present under the cursor, from top to bottom
-    var deepestNode = GetDeepestNode(nodesUnderCursor);
+    let nodesUnderCursor = document.querySelectorAll(":hover");   // Returns list of all nodes present under the cursor, from top to bottom
+    let deepestNode = GetDeepestNode(nodesUnderCursor);
     return(deepestNode);
 }
 
