@@ -61,9 +61,17 @@ function unhighlightElements(){
 }
 
 
-// Called when scroll wheel is scrolled
-document.onwheel = function (e){
 
+// Called when scroll wheel is scrolled
+document.addEventListener(
+    'wheel',
+    onWheel,
+    { passive: false }  // Prevent warning: "Unable to preventDefault inside passive event listener"
+                        // https://www.uriports.com/blog/easy-fix-for-unable-to-preventdefault-inside-passive-event-listener/
+)
+
+
+function onWheel(e){
     if (!(e.ctrlKey && e.altKey)) return;   // Only scale when Ctrl & Alt are pressed
 
     let deepestNode = GetDeepestNodeUnderCursor();
