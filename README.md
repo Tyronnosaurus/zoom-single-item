@@ -7,6 +7,13 @@ This could be useful for accessibility, or simply for when a very repetitive tas
 
 The custom size will be stored in your browser's local memory.
 
+![Normal](img/1.jpg)
+![Highlight](img/2.png)
+![Resized](img/3.jpg)
+
+To restore the original size, use the context menu:
+
+![Reset](img/4.png)
 
 ## To do
 - Neighbour elements should be displaced?
